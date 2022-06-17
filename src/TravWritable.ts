@@ -1,5 +1,4 @@
 import internal, { Writable } from "stream";
-
 interface TravWritableOptions<T> extends internal.WritableOptions{
     handler?:HandlerMethod<T>,
     enqueue?:ChunkEnqueueMethod<T>
@@ -135,6 +134,24 @@ export default class TravWritable<T=string> extends Writable{
             res(peek)
             
         })
+    }
+
+
+    /**
+     * 
+     * @param items An array of desired next items, or a string
+     * @param inclusive Wether the current item should also be checked for equality, defaults to false
+     * @returns true if the next items are equal to the ones provided, false otherwise
+     */
+    public async nextIs( items: T extends string ? string : T[], inclusive:boolean=true ){
+        let _items:any[] = []
+        if(typeof items === "string")_items = items.split("")
+        for(let i = inclusive?0:1; i<_items.length; i++){
+            const item = _items[i]
+            const value = await this.peek(i)
+            if(item!==value)return false
+        }
+        return true
     }
 
     override async _write(chunk: any, _encoding: BufferEncoding, callback: (error?: Error | null | undefined) => void){
