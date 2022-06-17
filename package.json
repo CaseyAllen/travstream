@@ -2,7 +2,8 @@
   "name": "travstream",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "out/index.js",
+  "types": "out",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,5 +15,10 @@
   },
   "dependencies": {
     "typescript": "^4.7.3"
-  }
+  },
+
+  "files": [
+    "out",
+    "package.json"
+  ]
 }
